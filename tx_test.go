@@ -2,6 +2,7 @@ package redis_test
 
 import (
 	"context"
+	"errors"
 	"strconv"
 	"sync"
 
@@ -40,7 +41,7 @@ var _ = Describe("Tx", func() {
 				})
 				return err
 			}, key)
-			if err == redis.TxFailedErr {
+			if errors.Is(err, redis.TxFailedErr) {
 				return incr(key)
 			}
 			return err

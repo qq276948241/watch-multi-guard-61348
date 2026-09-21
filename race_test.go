@@ -2,6 +2,7 @@ package redis_test
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"net"
 	"strconv"
@@ -204,7 +205,7 @@ var _ = Describe("races", func() {
 					Expect(cmds).To(HaveLen(1))
 					return err
 				}, "key")
-				if err == redis.TxFailedErr {
+				if errors.Is(err, redis.TxFailedErr) {
 					i--
 					continue
 				}

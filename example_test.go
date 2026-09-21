@@ -499,7 +499,7 @@ func ExampleClient_Watch() {
 				// Success.
 				return nil
 			}
-			if err == redis.TxFailedErr {
+			if errors.Is(err, redis.TxFailedErr) {
 				// Optimistic lock lost. Retry.
 				continue
 			}

@@ -4,6 +4,7 @@ package example_commands_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/redis/go-redis/v9"
@@ -151,7 +152,7 @@ func ExampleClient_transactions() {
 		if err == nil {
 			// Success.
 			break
-		} else if err == redis.TxFailedErr {
+		} else if errors.Is(err, redis.TxFailedErr) {
 			// Optimistic lock lost. Retry the transaction.
 			continue
 		} else {

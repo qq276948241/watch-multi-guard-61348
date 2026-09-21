@@ -606,7 +606,7 @@ var _ = Describe("ClusterClient", func() {
 					})
 					return err
 				}, key)
-				if err == redis.TxFailedErr {
+				if errors.Is(err, redis.TxFailedErr) {
 					return incr(key)
 				}
 				return err

@@ -3,6 +3,7 @@ package redis_test
 import (
 	"context"
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"net"
 	"strconv"
@@ -569,7 +570,7 @@ var _ = Describe("Ring watch", func() {
 				})
 				return err
 			}, key)
-			if err == redis.TxFailedErr {
+			if errors.Is(err, redis.TxFailedErr) {
 				return incr(key)
 			}
 			return err
@@ -675,7 +676,7 @@ var _ = Describe("Ring watch", func() {
 					Expect(cmds).To(HaveLen(1))
 					return err
 				}, "key")
-				if err == redis.TxFailedErr {
+				if errors.Is(err, redis.TxFailedErr) {
 					i--
 					continue
 				}
